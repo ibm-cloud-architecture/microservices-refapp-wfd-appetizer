@@ -22,17 +22,17 @@ This repository contains the **Java MicroProfile** implementation of the **Appet
 2. [How it works](#how-it-works)
 3. [API Endpoints](#api-endpoints)
 4. [Implementation](#implementation)
-    1. [Microprofile](#microprofile)
-    2. [Maven build](#maven-build)
-        - [Running the application locally using Maven Build](#running-the-application-locally-using-Maven-Build)
-    3. [Docker file](#docker-file)
-        - [Running the application locally in a docker container](#running-the-application-locally-in-a-docker-container)
-    4. [Microservice Builder](#microservice-builder)
-        1. [Minikube development Environment](#minikube-development-environment)
-           - [Running the application on Minikube](#running-the-application-on-minikube)
-        2. [IBM Cloud Private](#ibm-cloud-private)
-           - [Running the application on IBM Cloud Private](#running-the-application-on-ibm-cloud-private)
-5. [References](#references)
+    1. [Liberty app accelerator](#liberty-app-accelerator)
+    2. [Microprofile](#microprofile)
+5. [Building the app](#building-the-app)
+6. [Running the app and stopping it](#running-the-app-and-stopping-it)
+    1. [Pre-requisites](#Pre-requisites)
+    2. [Locally in JVM](#locally-in-jvm)
+    3. [Locally in Containers](#locally-in-containers)
+    4. [Locally in Minikube](#locally-in-minikube)
+    5. [Remotely in ICP](#remotely-in-icp)
+7. [DevOps Strategy](#devops-strategy)
+8. [References](#references)
 
 ### Introduction
 
@@ -55,44 +55,7 @@ GET     /WfdAppetizer/rest/appetizer/     # Returns the appetizers available
 
 ### Implementation
 
-#### [MicroProfile](https://microprofile.io/)
-
-MicroProfile is an open platform that optimizes the Enterprise Java for microservices architecture. In this application, we are using [**MicroProfile 1.2**](https://github.com/eclipse/microprofile-bom). This includes
-
-- MicroProfile 1.0 ([JAX-RS 2.0](https://jcp.org/en/jsr/detail?id=339), [CDI 1.2](https://jcp.org/en/jsr/detail?id=346), and [JSON-P 1.0](https://jcp.org/en/jsr/detail?id=353))
-- MicroProfile 1.1 (MicroProfile 1.0, [MicroProfile Config 1.0.](https://github.com/eclipse/microprofile-config))
-- [MicroProfile Config 1.1](https://github.com/eclipse/microprofile-config) (supercedes MicroProfile Config 1.0), [MicroProfile Fault Tolerance 1.0](https://github.com/eclipse/microprofile-fault-tolerance), [MicroProfile Health Check 1.0](https://github.com/eclipse/microprofile-health), [MicroProfile Metrics 1.0](https://github.com/eclipse/microprofile-metrics), [MicroProfile JWT Authentication 1.0](https://github.com/eclipse/microprofile-jwt-auth).
-
-You can make use of this feature by including this dependency in Maven.
-
-```
-<dependency>
-<groupId>org.eclipse.microprofile</groupId>
-<artifactId>microprofile</artifactId>
-<version>1.2</version>
-<type>pom</type>
-<scope>provided</scope>
-</dependency>
-```
-
-You should also include a feature in [server.xml](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/blob/microprofile/src/main/liberty/config/server.xml).
-
-```
-<server description="Sample Liberty server">
-
-  <featureManager>
-      <feature>microprofile-1.2</feature>
-  </featureManager>
-
-  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
-      id="defaultHttpEndpoint" host="*" />
-
-</server>
-```
-
-#### Maven build
-
-Maven is a project management tool that is based on the Project Object Model (POM). Typically, people use Maven for project builds, dependencies, and documentation. Maven simplifies the project build. In this task, you use Maven to build the project.
+#### [Liberty app accelerator](https://liberty-app-accelerator.wasdev.developer.ibm.com/start/)
 
 For Liberty, there is nice tool called [Liberty Accelerator](https://liberty-app-accelerator.wasdev.developer.ibm.com/start/) that generates a simple project based upon your configuration. Using this, you can build and deploy to Liberty either using the Maven or Gradle build.
 
@@ -135,37 +98,44 @@ For our application, the following are the required dependencies which are the p
 
 Using Liberty Accelerator is your choice. You can also create the entire project manually, but using Liberty Accelerator will make things easier.
 
-To make use of MicroProfile 1.2, include the below dependency in your POM.
+#### [MicroProfile](https://microprofile.io/)
+
+MicroProfile is an open platform that optimizes the Enterprise Java for microservices architecture. In this application, we are using [**MicroProfile 1.2**](https://github.com/eclipse/microprofile-bom). This includes
+
+- MicroProfile 1.0 ([JAX-RS 2.0](https://jcp.org/en/jsr/detail?id=339), [CDI 1.2](https://jcp.org/en/jsr/detail?id=346), and [JSON-P 1.0](https://jcp.org/en/jsr/detail?id=353))
+- MicroProfile 1.1 (MicroProfile 1.0, [MicroProfile Config 1.0.](https://github.com/eclipse/microprofile-config))
+- [MicroProfile Config 1.1](https://github.com/eclipse/microprofile-config) (supercedes MicroProfile Config 1.0), [MicroProfile Fault Tolerance 1.0](https://github.com/eclipse/microprofile-fault-tolerance), [MicroProfile Health Check 1.0](https://github.com/eclipse/microprofile-health), [MicroProfile Metrics 1.0](https://github.com/eclipse/microprofile-metrics), [MicroProfile JWT Authentication 1.0](https://github.com/eclipse/microprofile-jwt-auth).
+
+You can make use of this feature by including this dependency in Maven.
 
 ```
 <dependency>
-    <groupId>org.eclipse.microprofile</groupId>
-    <artifactId>microprofile</artifactId>
-    <version>1.2</version>
-    <type>pom</type>
-    <scope>provided</scope>
+<groupId>org.eclipse.microprofile</groupId>
+<artifactId>microprofile</artifactId>
+<version>1.2</version>
+<type>pom</type>
+<scope>provided</scope>
 </dependency>
 ```
 
-If you want to enable Zipkin OpenTracing feature, please include the below dependency in your POM.
+You should also include a feature in [server.xml](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/blob/microprofile/src/main/liberty/config/server.xml).
 
 ```
-<dependency>
-    <groupId>net.wasdev.wlp.tracer</groupId>
-    <artifactId>liberty-opentracing-zipkintracer</artifactId>
-    <version>1.0</version>
-    <type>jar</type>
-    <scope>provided</scope>
-</dependency>
+<server description="Sample Liberty server">
+
+  <featureManager>
+      <feature>microprofile-1.2</feature>
+  </featureManager>
+
+  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+      id="defaultHttpEndpoint" host="*" />
+
+</server>
 ```
 
-If you are planning to include zipkin tracer in your application, please add the below feature to your [server.xml](https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer/blob/microprofile/src/main/liberty/config/server.xml).
+### Building the app
 
-```
-<feature>opentracingZipkin-0.30</feature>
-```
-
-##### Running the application locally using Maven Build
+To build the application, we used maven build. Maven is a project management tool that is based on the Project Object Model (POM). Typically, people use Maven for project builds, dependencies, and documentation. Maven simplifies the project build. In this task, you use Maven to build the project.
 
 1. Clone this repository.
 
@@ -199,7 +169,16 @@ If you are planning to include zipkin tracer in your application, please add the
 [INFO] Final Memory: 19M/305M
 [INFO] ------------------------------------------------------------------------
 ```
-5. Now start your server.
+
+### Running the app and stopping it
+
+#### Pre-requisites
+
+TBD
+
+#### Locally in JVM
+
+1. Start your server.
 
    `mvn liberty:start-server`
 
@@ -218,7 +197,7 @@ If you are planning to include zipkin tracer in your application, please add the
 [INFO] Final Memory: 9M/309M
 [INFO] ------------------------------------------------------------------------
 ```
-6. Now, go to your browser and access the REST endpoint at `http://localhost:9080/WfdAppetizer/rest/appetizer`.
+2. Now, go to your browser and access the REST endpoint at `http://localhost:9080/WfdAppetizer/rest/appetizer`.
 
 <p align="center">
     <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/master/static/imgs/AppetizerScreen.png">
@@ -262,7 +241,7 @@ Also, there is one more endpoint defined at [HealthEndpoint.java](https://github
 
 To access the health api, replace the **ENDPOINT** with `health`. This endpoint gives the health of your application. To check this, use http://localhost:9080/WfdAppetizer/rest/health.
 
-7. If you are done accessing the application, you can stop your server using the following command.
+3. If you are done accessing the application, you can stop your server using the following command.
 
    `mvn liberty:stop-server`
 
@@ -281,6 +260,10 @@ Once you do this, you see the below messages.
 [INFO] Final Memory: 9M/309M
 [INFO] ------------------------------------------------------------------------
 ```
+
+### Locally in Containers
+
+To run the application in docker, we first need to define a Docker file.
 
 #### Docker file
 
@@ -312,23 +295,9 @@ CMD ["/opt/ibm/wlp/bin/server", "run", "defaultServer"]
   - The second instruction is a precondition to install all the utilities in the server.xml file. You can use the RUN command to install the utilities on the base image.
 - The `CMD` instruction provides defaults for an executing container.
 
-##### Running the application locally in a docker container
+#### Running the application locally in a docker container
 
-1. Clone this repository.
-
-   `git clone https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-appetizer.git`
-
-2. Checkout MicroProfile branch.
-
-   `git checkout microprofile`
-
-3. `cd refarch-cloudnative-wfd-appetizer/`
-
-4. Run this command. This command builds the project and installs it.
-
-   `mvn install`
-
-5. Build the docker image.
+1. Build the docker image.
 
 `docker build -t wfd-appetizer:microprofile .`
 
@@ -346,7 +315,7 @@ REPOSITORY                     TAG                 IMAGE ID            CREATED  
 wfd-appetizer                  microprofile        83722dbad66c        2 minutes ago       379MB
 ```
 
-6. Run the docker image.
+2. Run the docker image.
 
 `docker run -p 9080:9080 --name appetizer -t wfd-appetizer:microprofile`
 
@@ -362,7 +331,7 @@ When it is done, you will see the following output.
 [AUDIT   ] CWWKF0012I: The server installed the following features: [microProfile-1.2, mpFaultTolerance-1.0, servlet-3.1, ssl-1.0, jndi-1.0, mpHealth-1.0, appSecurity-2.0, jsonp-1.0, mpConfig-1.1, jaxrs-2.0, jaxrsClient-2.0, concurrent-1.0, jwt-1.0, mpMetrics-1.0, mpJwt-1.0, json-1.0, cdi-1.2, distributedMap-1.0].
 [AUDIT   ] CWWKF0011I: The server defaultServer is ready to run a smarter planet
 ```
-7. Now, view the REST endpoint at `http://localhost:9080/WfdAppetizer/rest/appetizer`.
+3. Now, view the REST endpoint at `http://localhost:9080/WfdAppetizer/rest/appetizer`.
 
 <p align="center">
     <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/master/static/imgs/AppetizerScreen.png">
@@ -370,9 +339,9 @@ When it is done, you will see the following output.
 
    Access URL : `http://<HOST>:<PORT>/<WAR_CONTEXT>/<APPLICATION_PATH>/<ENDPOINT>`
 
-8. Once you make sure the application is working as expected, you can come out of the process. You can do this by pressing Ctrl+C on the command line where the server was started.
+4. Once you make sure the application is working as expected, you can come out of the process. You can do this by pressing Ctrl+C on the command line where the server was started.
 
-9. You can also remove the container if desired. This can be done in the following way.
+5. You can also remove the container if desired. This can be done in the following way.
 
 `docker ps`
 
