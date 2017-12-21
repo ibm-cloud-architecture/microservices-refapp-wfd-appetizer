@@ -26,7 +26,7 @@ This repository contains the **Java MicroProfile** implementation of the **Appet
     2. [Microprofile](#microprofile)
 5. [Building the app](#building-the-app)
 6. [Running the app and stopping it](#running-the-app-and-stopping-it)
-    1. [Pre-requisites](#Pre-requisites)
+    1. [Pre-requisites](#pre-requisites)
     2. [Locally in JVM](#locally-in-jvm)
     3. [Locally in Containers](#locally-in-containers)
     4. [Locally in Minikube](#locally-in-minikube)
@@ -590,7 +590,7 @@ Click on the **http** link there. You will be redirected to the UI.
     <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/MSB_jenkins/uiICP.png">
 </p>
 
-### DevOps strategy - [Microservice Builder](https://www.ibm.com/us-en/marketplace/microservice-builder)
+### DevOps strategy
 
 We opted [Microservice Builder](https://www.ibm.com/us-en/marketplace/microservice-builder) as our continuos delivery pipeline. It helps us to maintain the application end to end from development to production supporting continuous delivery. It helps us to develop and deploy microservice based applications. Using the pre-integrated Devops pipeline, developers can rapidly build innovative services and deploy them easily.
 
