@@ -172,11 +172,30 @@ To build the application, we used maven build. Maven is a project management too
 
 ### Running the app and stopping it
 
-#### Pre-requisites
+### Pre-requisites
 
-TBD
+1. Locally in JVM
 
-#### Locally in JVM
+To run the What's For Dinner application locally in JVM, please complete the [Building the app](#building-the-app) section.
+
+2. Locally in Containers
+
+To run the What's For Dinner application locally in container, you need [Docker](https://www.docker.com/) to be locally present in your system.
+
+3. Locally in Minikube
+
+To run the What's For Dinner application locally on your laptop on a Kubernetes-based environment such as Minikube (which is meant to be a small development environment) we first need to get few tools installed:
+
+- [Kubectl](https://kubernetes.io/docs/user-guide/kubectl-overview/) (Kubernetes CLI) - Follow the instructions [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install it on your platform.
+- [Helm](https://github.com/kubernetes/helm) (Kubernetes package manager) - Follow the instructions [here](https://github.com/kubernetes/helm/blob/master/docs/install.md) to install it on your platform.
+
+Finally, we must create a Kubernetes Cluster. As already said before, we are going to use Minikube:
+
+- [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) - Create a single node virtual cluster on your workstation. Follow the instructions [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) to get Minikube installed on your workstation.
+
+We not only recommend to complete the three Minikube installation steps on the link above but also read the [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) page for getting more familiar with Minikube. We can learn there interesting things such as reusing our Docker daemon, getting the Minikube's ip or opening the Minikube's dashboard for GUI interaction with out Kubernetes Cluster.
+
+### Locally in JVM
 
 1. Start your server.
 
@@ -356,6 +375,8 @@ Grab the container id.
 In this case it will be, `docker stop 82865cf36207`
 - Do `docker rm <CONTAINER ID>`
 In this case it will be, `docker rm 82865cf36207`
+
+### Locally in Minikube
 
 #### [Microservice Builder](https://www.ibm.com/us-en/marketplace/microservice-builder)
 
