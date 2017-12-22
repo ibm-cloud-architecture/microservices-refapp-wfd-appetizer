@@ -24,6 +24,7 @@ This repository contains the **Java MicroProfile** implementation of the **Appet
 4. [Implementation](#implementation)
     1. [Liberty app accelerator](#liberty-app-accelerator)
     2. [Microprofile](#microprofile)
+4. [Features and App details](#features)
 5. [Building the app](#building-the-app)
 6. [Running the app and stopping it](#running-the-app-and-stopping-it)
     1. [Pre-requisites](#pre-requisites)
@@ -131,6 +132,70 @@ You should also include a feature in [server.xml](https://github.com/ibm-cloud-a
       id="defaultHttpEndpoint" host="*" />
 
 </server>
+```
+
+### Features
+
+1. Java SE 8 - Used Java Programming language
+2. CDI 1.2 - Used CDI for typesafe dependency injection
+
+```
+import javax.inject.Inject;
+
+public class AppetizerResource {
+
+	@Inject
+	Config config;
+
+}
+```
+3. JAX-RS 2.0.1 - JAX-RS is used for providing both standard client and server APIs for RESTful communication by MicroProfile applications.
+
+```
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+
+@ApplicationPath("/rest")
+public class AppetizerApplication extends Application {
+
+}
+```
+
+```
+import javax.ws.rs.Path;
+
+@Path("appetizer")
+public class AppetizerResource {
+
+}
+```
+
+4. Eclipse MicroProfile Config 1.1 - Configuration data comes from different sources like system properties, system environment variables, .properties etc. These values may change dynamically. Using this feature, helps us to pick up configured values immediately after they got changed.
+
+The config values are sorted according to their ordinal. We can override the lower importance values from outside. The config sources by default, below is the order of importance.
+
+- System.getProperties()
+- System.getenv()
+- all META-INF/microprofile-config.properties files on the ClassPath.
+
+In our sample application, we obtained the configuration programatically. Below is the code snippet that shows it.
+
+```
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
+public class AppetizerResource {
+
+	@GET
+	public Response getAllProperties(){
+		Config config = ConfigProvider.getConfig();
+		Appetizer local = new Appetizer();
+		local.setMenu(Arrays.asList(config.getValue("menu", String.class)));
+		local.setOrder(Integer.parseInt(config.getValue("order", String.class)));
+		local.setType(config.getValue("type", String.class));
+		return Response.ok(local, MediaType.APPLICATION_JSON).build();
+	}
+}
 ```
 
 ### Building the app
