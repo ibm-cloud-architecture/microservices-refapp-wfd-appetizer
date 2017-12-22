@@ -24,16 +24,16 @@ This repository contains the **Java MicroProfile** implementation of the **Appet
 4. [Implementation](#implementation)
     1. [Liberty app accelerator](#liberty-app-accelerator)
     2. [Microprofile](#microprofile)
-4. [Features and App details](#features)
-5. [Building the app](#building-the-app)
-6. [Running the app and stopping it](#running-the-app-and-stopping-it)
+5. [Features and App details](#features)
+6. [Building the app](#building-the-app)
+7. [Running the app and stopping it](#running-the-app-and-stopping-it)
     1. [Pre-requisites](#pre-requisites)
     2. [Locally in JVM](#locally-in-jvm)
     3. [Locally in Containers](#locally-in-containers)
     4. [Locally in Minikube](#locally-in-minikube)
     5. [Remotely in ICP](#remotely-in-icp)
-7. [DevOps Strategy](#devops-strategy)
-8. [References](#references)
+8. [DevOps Strategy](#devops-strategy)
+9. [References](#references)
 
 ### Introduction
 
