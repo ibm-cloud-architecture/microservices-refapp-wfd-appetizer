@@ -296,7 +296,7 @@ Along with these, you also need a [JSON processor utility](https://stedolan.gith
 2. Now, go to your browser and access the REST endpoint at `http://localhost:9080/WfdAppetizer/rest/appetizer`.
 
 <p align="center">
-    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/master/static/imgs/AppetizerScreen.png">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/AppetizerScreen.png">
 </p>
 
    Access URL : `http://<HOST>:<PORT>/<WAR_CONTEXT>/<APPLICATION_PATH>/<ENDPOINT>`
@@ -430,7 +430,7 @@ When it is done, you will see the following output.
 3. Now, view the REST endpoint at `http://localhost:9080/WfdAppetizer/rest/appetizer`.
 
 <p align="center">
-    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/master/static/imgs/AppetizerScreen.png">
+    <img src="https://github.com/ibm-cloud-architecture/refarch-cloudnative-wfd/blob/microprofile/static/imgs/AppetizerScreen.png">
 </p>
 
    Access URL : `http://<HOST>:<PORT>/<WAR_CONTEXT>/<APPLICATION_PATH>/<ENDPOINT>`
